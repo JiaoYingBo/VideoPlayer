@@ -11,7 +11,6 @@
 
 @class PlayerView;
 @protocol PlayerViewDelegate <NSObject>
-
 - (void)didClickFullScreenButtonWithPlayerView:(PlayerView *)playerView;
 @end
 
@@ -33,12 +32,12 @@
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
-// 播放完毕
+/** 是否播放完毕 */
 @property (nonatomic, assign, readonly) BOOL playEnded;
+/** 是否是全屏 */
 @property (nonatomic, assign, readonly) BOOL fullScreen;
 
 + (instancetype)viewWithFrame:(CGRect)frame;
-- (void)play;
 @end
 
 @interface ToolView : UIView

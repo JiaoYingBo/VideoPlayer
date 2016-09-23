@@ -48,7 +48,7 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aNN-EU-SNl"/>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wmk-C2-r54"/>
                         <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="An3-xp-tAX">
                             <connections>
                                 <action selector="sliderTouchBegin:" destination="iN0-l3-epB" eventType="touchDown" id="YSl-06-1xb"/>
@@ -60,20 +60,20 @@
                     </subviews>
                     <color key="backgroundColor" red="0.19402405104712039" green="0.19402405104712039" blue="0.19402405104712039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="Wmk-C2-r54" firstAttribute="centerY" secondItem="An3-xp-tAX" secondAttribute="centerY" constant="0.5" id="1WU-nC-AGU"/>
                         <constraint firstAttribute="height" constant="50" id="4eF-68-YdN"/>
                         <constraint firstItem="tfF-cR-mYF" firstAttribute="centerY" secondItem="wIW-mY-xlg" secondAttribute="centerY" id="G3s-pi-t9t"/>
-                        <constraint firstItem="aNN-EU-SNl" firstAttribute="centerX" secondItem="An3-xp-tAX" secondAttribute="centerX" id="GnT-LD-vJp"/>
                         <constraint firstItem="xRE-wo-BnY" firstAttribute="leading" secondItem="tfF-cR-mYF" secondAttribute="trailing" constant="5" id="I7w-4y-YjC"/>
                         <constraint firstItem="An3-xp-tAX" firstAttribute="leading" secondItem="X7D-Qg-LLQ" secondAttribute="trailing" constant="51" id="IDg-fF-0tx"/>
+                        <constraint firstItem="Wmk-C2-r54" firstAttribute="width" secondItem="An3-xp-tAX" secondAttribute="width" id="KCb-J6-Ecr"/>
                         <constraint firstItem="An3-xp-tAX" firstAttribute="centerY" secondItem="wIW-mY-xlg" secondAttribute="centerY" id="Q3f-UJ-b68"/>
                         <constraint firstAttribute="trailing" secondItem="xRE-wo-BnY" secondAttribute="trailing" id="SGe-uL-DXh"/>
                         <constraint firstItem="aPJ-oL-feT" firstAttribute="centerY" secondItem="wIW-mY-xlg" secondAttribute="centerY" id="ZB0-dG-SQY"/>
+                        <constraint firstItem="xRE-wo-BnY" firstAttribute="leading" secondItem="An3-xp-tAX" secondAttribute="trailing" constant="51" id="e2g-8h-4HR"/>
                         <constraint firstItem="aPJ-oL-feT" firstAttribute="leading" secondItem="X7D-Qg-LLQ" secondAttribute="trailing" constant="5" id="eTb-Ut-sTt"/>
-                        <constraint firstItem="aNN-EU-SNl" firstAttribute="width" secondItem="An3-xp-tAX" secondAttribute="width" id="i4R-mw-YeY"/>
+                        <constraint firstItem="Wmk-C2-r54" firstAttribute="centerX" secondItem="An3-xp-tAX" secondAttribute="centerX" id="h9h-fv-2Wr"/>
                         <constraint firstItem="X7D-Qg-LLQ" firstAttribute="top" secondItem="wIW-mY-xlg" secondAttribute="top" id="jGg-22-Lod"/>
-                        <constraint firstItem="aNN-EU-SNl" firstAttribute="centerY" secondItem="An3-xp-tAX" secondAttribute="centerY" constant="0.5" id="lYF-Zp-9WD"/>
                         <constraint firstItem="xRE-wo-BnY" firstAttribute="top" secondItem="wIW-mY-xlg" secondAttribute="top" id="pBg-0Q-TgC"/>
-                        <constraint firstItem="tfF-cR-mYF" firstAttribute="leading" secondItem="An3-xp-tAX" secondAttribute="trailing" constant="10" id="vAn-Fp-mWv"/>
                         <constraint firstItem="X7D-Qg-LLQ" firstAttribute="leading" secondItem="wIW-mY-xlg" secondAttribute="leading" id="zL5-mN-wGh"/>
                     </constraints>
                 </view>
@@ -98,8 +98,10 @@
                 <outlet property="fullButton" destination="xRE-wo-BnY" id="ZdG-d9-YPu"/>
                 <outlet property="imageView" destination="XOm-SD-wLh" id="gOH-4R-hR3"/>
                 <outlet property="playButton" destination="X7D-Qg-LLQ" id="XGS-4U-hsx"/>
-                <outlet property="progressView" destination="aNN-EU-SNl" id="Ctk-ve-DDg"/>
+                <outlet property="progressView" destination="Wmk-C2-r54" id="sil-bx-FGU"/>
                 <outlet property="slider" destination="An3-xp-tAX" id="Ogd-2E-wqD"/>
+                <outlet property="sliderLeadingCtn" destination="IDg-fF-0tx" id="BNj-f9-xNc"/>
+                <outlet property="sliderTrailingCtn" destination="e2g-8h-4HR" id="ffU-rr-aJo"/>
                 <outlet property="toolView" destination="wIW-mY-xlg" id="Uxi-uh-1tS"/>
                 <outlet property="totalTime" destination="tfF-cR-mYF" id="bXQ-iJ-qML"/>
             </connections>
