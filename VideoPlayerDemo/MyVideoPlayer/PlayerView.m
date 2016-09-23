@@ -40,17 +40,20 @@
     // 初始化AVPlayer
     self.player = [[AVPlayer alloc] init];
     __weak typeof(self) weakSelf = self;
+    // 播放1s回调一次
     [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
         [weakSelf setTimeLabel];
         NSTimeInterval totalTime = CMTimeGetSeconds(weakSelf.player.currentItem.duration);
-        // time.value/time.timescale是当前时间
-        weakSelf.slider.value = time.value/time.timescale/totalTime;
+        weakSelf.slider.value = time.value/time.timescale/totalTime;//time.value/time.timescale是当前时间
     }];
     // 初始化AVPlayerLayer
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     [self.imageView.layer addSublayer:self.playerLayer];
     
     [self.slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
+    [self.slider setMaximumTrackImage:[self imageWithColor:[UIColor clearColor] size:CGSizeMake(300, 2)] forState:UIControlStateNormal];
+    [self.progressView setProgressTintColor:[UIColor colorWithRed:135/255.0 green:206/255.0 blue:235/255.0 alpha:.8]];
+    [self.progressView setTrackTintColor:[UIColor whiteColor]];
     [self addNotification];
     _fullScreen = NO;
 }
@@ -150,11 +153,12 @@
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         NSArray *array = self.player.currentItem.loadedTimeRanges;
         CMTimeRange timeRange = [array.firstObject CMTimeRangeValue];//本次缓冲时间范围
-        NSTimeInterval startSeconds = CMTimeGetSeconds(timeRange.start);
-        NSTimeInterval durationSeconds = CMTimeGetSeconds(timeRange.duration);
+        NSTimeInterval startSeconds = CMTimeGetSeconds(timeRange.start);//本次缓冲起始时间
+        NSTimeInterval durationSeconds = CMTimeGetSeconds(timeRange.duration);//缓冲时间
         NSTimeInterval totalBuffer = startSeconds + durationSeconds;//缓冲总长度
-        float totalTime = CMTimeGetSeconds(self.player.currentItem.duration);
-        NSLog(@"已缓冲：%.2f%%", totalBuffer/totalTime*100);
+        float totalTime = CMTimeGetSeconds(self.player.currentItem.duration);//视频总长度
+        float progress = totalBuffer/totalTime;//缓冲进度
+        [self.progressView setProgress:progress];
     }
 }
 
@@ -205,6 +209,21 @@
 - (void)showToolView
 {
     self.toolView.hidden = NO;
+}
+
+#pragma mark - 绘制图片
+- (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size
+{
+    @autoreleasepool {
+        CGRect rect = CGRectMake(0, 0, size.width, size.height);
+        UIGraphicsBeginImageContext(rect.size);
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(ctx, color.CGColor);
+        CGContextFillRect(ctx, rect);
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return image;
+    }
 }
 
 - (void)dealloc {

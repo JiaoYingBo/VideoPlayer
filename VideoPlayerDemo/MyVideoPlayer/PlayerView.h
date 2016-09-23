@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIButton *fullButton;
 @property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 /** 视频地址 */
 @property (nonatomic, copy) NSString *urlString;
