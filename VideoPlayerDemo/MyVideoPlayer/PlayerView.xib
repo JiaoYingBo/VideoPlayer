@@ -31,7 +31,7 @@
                                 <action selector="fullScreenBtnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="mSA-KW-Dy2"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7D-Qg-LLQ">
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7D-Qg-LLQ">
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="dot-6I-o46"/>
                                 <constraint firstAttribute="height" constant="50" id="vir-hI-SG3"/>
@@ -48,7 +48,7 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="An3-xp-tAX">
+                        <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="An3-xp-tAX">
                             <connections>
                                 <action selector="sliderTouchBegin:" destination="iN0-l3-epB" eventType="touchDown" id="YSl-06-1xb"/>
                                 <action selector="sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpInside" id="UR4-hZ-4hV"/>

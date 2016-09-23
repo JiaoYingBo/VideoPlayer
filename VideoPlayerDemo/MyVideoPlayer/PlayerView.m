@@ -143,6 +143,8 @@
             [self.activityView stopAnimating];
             [self setTimeLabel];
             // 开始自动播放
+            self.playButton.enabled = YES;
+            self.slider.enabled = YES;
             [self playButtonClick:self.playButton];
         }
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
