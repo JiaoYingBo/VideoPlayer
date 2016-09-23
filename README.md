@@ -20,8 +20,10 @@
 
 ####播放界面如下：
 ![](https://github.com/JiaoYingBo/VideoPlayer/raw/master/VideoPlayerDemo/HP.png)
+***
 
 ![](https://github.com/JiaoYingBo/VideoPlayer/raw/master/VideoPlayerDemo/SP.png)
+***
 
 ###注意
 如果用Xcode7运行报错：`The document "(null)" requires Xcode 8.0 or later.` 右键报错的`StoryBoard`或`Xib`文件__-->Open As-->Source Code__，删除 `<capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/> `这一行即可。
