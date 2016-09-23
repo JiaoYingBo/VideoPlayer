@@ -31,7 +31,7 @@
 @property (nonatomic, copy) NSString *urlString;
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
-@property (nonatomic, strong) AVPlayerItem *playerItem;
+//@property (nonatomic, strong) AVPlayerItem *playerItem;
 /** 是否播放完毕 */
 @property (nonatomic, assign, readonly) BOOL playEnded;
 /** 是否是全屏 */
