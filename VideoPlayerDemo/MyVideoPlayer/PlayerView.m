@@ -39,6 +39,7 @@
     [self resetUI];
     _fullScreen = NO;
     _paused = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)layoutSubviews
@@ -60,8 +61,10 @@
 {
     _urlString = urlString;
     [self resetPlayer];
-    [self removeNotification];
-    [self removeObserverFromPlayerItem:_player.currentItem];
+    if (self.player.currentItem != nil) {
+        [self playerItemRemoveNotification];
+        [self playerItemRemoveObserver];
+    }
     AVPlayerItem *playerItem = [self getPlayerItemWithURLString:urlString];
     [self addObserverToPlayerItem:playerItem];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -106,7 +109,7 @@
 - (void)playerItemAddNotification
 {
     // 播放完成通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
 }
 
 - (void)addObserverToPlayerItem:(AVPlayerItem *)playerItem
@@ -117,15 +120,15 @@
     [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)removeNotification
+- (void)playerItemRemoveNotification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
 }
 
-- (void)removeObserverFromPlayerItem:(AVPlayerItem *)playerItem
+- (void)playerItemRemoveObserver
 {
-    [playerItem removeObserver:self forKeyPath:@"status"];
-    [playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [self.player.currentItem removeObserver:self forKeyPath:@"status"];
+    [self.player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
 }
 
 -(void)playbackFinished:(NSNotification *)noti{
@@ -147,24 +150,31 @@
             [self playButtonClick:_playButton];
         }
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-        NSArray *array = _player.currentItem.loadedTimeRanges;
+        NSArray *array = self.player.currentItem.loadedTimeRanges;
         CMTimeRange timeRange = [array.firstObject CMTimeRangeValue];//本次缓冲时间范围
         NSTimeInterval startSeconds = CMTimeGetSeconds(timeRange.start);//本次缓冲起始时间
         NSTimeInterval durationSeconds = CMTimeGetSeconds(timeRange.duration);//缓冲时间
         NSTimeInterval totalBuffer = startSeconds + durationSeconds;//缓冲总长度
-        float totalTime = CMTimeGetSeconds(_player.currentItem.duration);//视频总长度
+        float totalTime = CMTimeGetSeconds(self.player.currentItem.duration);//视频总长度
         float progress = totalBuffer/totalTime;//缓冲进度
         [_progressView setProgress:progress];
     }
 }
 
+- (void)applicationWillResignActive:(NSNotification *)noti
+{
+    if (self.player.rate == 1) {
+        [self playButtonClick:_playButton];
+    }
+}
+
 #pragma mark - 点击/滑动动作
 - (IBAction)playButtonClick:(UIButton *)sender {
-    if (_player.rate == 0) {
+    if (self.player.rate == 0) {
         sender.selected = YES;
         _paused = NO;
         [self play];
-    } else if (_player.rate == 1) {
+    } else if (self.player.rate == 1) {
         sender.selected = NO;
         _paused = YES;
         [self pause];
@@ -176,18 +186,18 @@
 }
 
 - (IBAction)sliderValueChanged:(UISlider *)sender {
-    NSTimeInterval currentTime = CMTimeGetSeconds(_player.currentItem.duration) * _slider.value;
+    NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.duration) * _slider.value;
     NSInteger currentMin = currentTime / 60;
     NSInteger currentSec = (NSInteger)currentTime % 60;
     _currentTime.text = [NSString stringWithFormat:@"%02td:%02td",currentMin,currentSec];
 }
 
 - (IBAction)sliderTouchEnd:(UISlider *)sender {
-    NSTimeInterval slideTime = CMTimeGetSeconds(_player.currentItem.duration) * _slider.value;
-    if (slideTime == CMTimeGetSeconds(_player.currentItem.duration)) {
+    NSTimeInterval slideTime = CMTimeGetSeconds(self.player.currentItem.duration) * _slider.value;
+    if (slideTime == CMTimeGetSeconds(self.player.currentItem.duration)) {
         slideTime -= 0.5;
     }
-    [_player seekToTime:CMTimeMakeWithSeconds(slideTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    [self.player seekToTime:CMTimeMakeWithSeconds(slideTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     if (_paused == NO) {
         [self play];
     }
@@ -204,8 +214,8 @@
 #pragma mark - Time Label
 - (void)setTimeLabel
 {
-    NSTimeInterval totalTime = CMTimeGetSeconds(_player.currentItem.duration);
-    NSTimeInterval currentTime = CMTimeGetSeconds(_player.currentTime);
+    NSTimeInterval totalTime = CMTimeGetSeconds(self.player.currentItem.duration);
+    NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentTime);
     // 切换视频源时totalTime/currentTime的值会出现nan导致时间错乱
     if (!(totalTime>=0)||!(currentTime>=0)) {
         totalTime = 0;
@@ -226,15 +236,15 @@
 {
     // 如果已播放完毕，则重新从头开始播放
     if (_playEnded == YES) {
-        [_player seekToTime:CMTimeMakeWithSeconds(0, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+        [self.player seekToTime:CMTimeMakeWithSeconds(0, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
         _playEnded = NO;
     }
-    [_player play];
+    [self.player play];
 }
 
 - (void)pause
 {
-    [_player pause];
+    [self.player pause];
 }
 
 - (void)resetPlayer
@@ -284,10 +294,10 @@
 }
 
 - (void)dealloc {
-    [self removeObserverFromPlayerItem:_player.currentItem];
-    [_player replaceCurrentItemWithPlayerItem:nil];
-    [_player removeTimeObserver:self];
-    [self removeNotification];
+    [self playerItemRemoveObserver];
+    [self.player replaceCurrentItemWithPlayerItem:nil];
+    [self.player removeTimeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
