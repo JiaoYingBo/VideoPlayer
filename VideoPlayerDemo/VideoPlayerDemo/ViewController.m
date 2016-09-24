@@ -43,6 +43,7 @@
     return _fullVC;
 }
 
+#pragma mark - 切换视频
 // 播放视频1
 - (IBAction)video1:(id)sender {
     _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/0915/8224a236-7ac8-11e6-ba32-90b11c479401cut_wpd.mp4";
@@ -53,7 +54,7 @@
     _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/0921/68ad32f4-7fb5-11e6-baa3-90b11c479401cut_wpd.mp4";
 }
 
-#pragma mark - PlayerViewDelegate
+#pragma mark - PlayerView delegate
 - (void)didClickFullScreenButtonWithPlayerView:(PlayerView *)playerView
 {
     if (_playerView.fullScreen == NO) {
@@ -71,6 +72,7 @@
     }
 }
 
+#pragma mark - 屏幕旋转
 // 不自动旋转
 - (BOOL)shouldAutorotate {
     return NO;
