@@ -18,6 +18,7 @@ typedef struct {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
 /** 记录暂停状态 */
 @property (nonatomic ,assign) BOOL paused;
+/** 记录delegate响应了哪些方法 */
 @property (nonatomic, assign) DelegateFlags delegateFlags;
 @end
 
