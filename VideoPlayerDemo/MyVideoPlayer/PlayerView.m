@@ -10,10 +10,15 @@
 #import "FullScreenController.h"
 
 @interface PlayerView ()
+typedef struct {
+    unsigned int didClickFullScreenButton : 1;
+} DelegateFlags;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderLeadingCtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
 /** 记录暂停状态 */
 @property (nonatomic ,assign) BOOL paused;
+@property (nonatomic, assign) DelegateFlags delegateFlags;
 @end
 
 @implementation PlayerView
@@ -110,6 +115,12 @@
         [self.player replaceCurrentItemWithPlayerItem:playerItem];
         [self pv_playerItemAddNotification];
     });
+}
+
+- (void)setDelegate:(id<PlayerViewDelegate>)delegate
+{
+    _delegate = delegate;
+    _delegateFlags.didClickFullScreenButton = [delegate respondsToSelector:@selector(didClickFullScreenButtonWithPlayerView:)];
 }
 
 #pragma mark - 懒加载
@@ -234,7 +245,7 @@
 }
 
 - (IBAction)pv_fullScreenBtnClick:(UIButton *)sender {
-    if ([_delegate respondsToSelector:@selector(didClickFullScreenButtonWithPlayerView:)]) {
+    if (_delegateFlags.didClickFullScreenButton) {
         [_delegate didClickFullScreenButtonWithPlayerView:self];
         sender.selected = !sender.selected;
     }
