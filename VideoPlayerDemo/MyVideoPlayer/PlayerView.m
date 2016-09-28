@@ -18,17 +18,25 @@
 
 @implementation PlayerView
 
-#pragma mark - 初始化相关方法
+#pragma mark - 初始化方法
 + (instancetype)viewWithFrame:(CGRect)frame
 {
-    PlayerView *view = [PlayerView instanceView];
+    PlayerView *view = [PlayerView pv_instanceView];
     view.frame = frame;
     return view;
 }
 
-+ (instancetype)instanceView
+#pragma mark - 系统方法
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
+    // 写这行是为了消除Xcode8上的警告，强迫症！
+    self = [super initWithFrame:frame];
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须使用 viewWithFrame: 方法初始化" userInfo:nil];
+}
+
+- (instancetype)init
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须使用 viewWithFrame: 方法初始化" userInfo:nil];
 }
 
 - (void)awakeFromNib
@@ -36,10 +44,10 @@
     [super awakeFromNib];
     
     [_imageView.layer addSublayer:self.playerLayer];
-    [self resetUI];
+    [self pv_resetUI];
     _fullScreen = NO;
     _paused = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pv_applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)layoutSubviews
@@ -48,28 +56,59 @@
     _playerLayer.frame = self.bounds;
 }
 
-- (void)resetUI
-{
-    [_slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
-    [_slider setMaximumTrackImage:[self imageWithColor:[UIColor clearColor] size:CGSizeMake(300, 2)] forState:UIControlStateNormal];
-    [_progressView setProgressTintColor:[UIColor colorWithRed:135/255.0 green:206/255.0 blue:235/255.0 alpha:.8]];
-    [_progressView setTrackTintColor:[UIColor whiteColor]];
+- (void)dealloc {
+    [self pv_playerItemRemoveObserver];
+    [self.player replaceCurrentItemWithPlayerItem:nil];
+    [self.player removeTimeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - set方法
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"status"]) {
+        AVPlayerStatus status= [[change objectForKey:@"new"] intValue];
+        if (status == AVPlayerStatusReadyToPlay) {
+            [_activityView stopAnimating];
+            [self pv_setTimeLabel];
+            // 开始自动播放
+            _playButton.enabled = YES;
+            _slider.enabled = YES;
+            [self pv_playButtonClick:_playButton];
+        }
+    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+        NSArray *array = self.player.currentItem.loadedTimeRanges;
+        CMTimeRange timeRange = [array.firstObject CMTimeRangeValue];//本次缓冲时间范围
+        NSTimeInterval startSeconds = CMTimeGetSeconds(timeRange.start);//本次缓冲起始时间
+        NSTimeInterval durationSeconds = CMTimeGetSeconds(timeRange.duration);//缓冲时间
+        NSTimeInterval totalBuffer = startSeconds + durationSeconds;//缓冲总长度
+        float totalTime = CMTimeGetSeconds(self.player.currentItem.duration);//视频总长度
+        float progress = totalBuffer/totalTime;//缓冲进度
+        [_progressView setProgress:progress];
+    }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    if (_toolView.hidden == YES) {
+        [self pv_showToolView];
+    } else {
+        [self pv_hideToolView];
+    }
+}
+
+#pragma mark - setter方法
 - (void)setUrlString:(NSString *)urlString
 {
     _urlString = urlString;
-    [self resetPlayer];
+    [self pv_resetPlayer];
     if (self.player.currentItem != nil) {
-        [self playerItemRemoveNotification];
-        [self playerItemRemoveObserver];
+        [self pv_playerItemRemoveNotification];
+        [self pv_playerItemRemoveObserver];
     }
-    AVPlayerItem *playerItem = [self getPlayerItemWithURLString:urlString];
-    [self addObserverToPlayerItem:playerItem];
+    AVPlayerItem *playerItem = [self pv_getPlayerItemWithURLString:urlString];
+    [self pv_addObserverToPlayerItem:playerItem];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.player replaceCurrentItemWithPlayerItem:playerItem];
-        [self playerItemAddNotification];
+        [self pv_playerItemAddNotification];
     });
 }
 
@@ -81,7 +120,7 @@
         __weak typeof(self) weakSelf = self;
         // 播放1s回调一次
         [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
-            [weakSelf setTimeLabel];
+            [weakSelf pv_setTimeLabel];
             NSTimeInterval totalTime = CMTimeGetSeconds(weakSelf.player.currentItem.duration);
             weakSelf.slider.value = time.value/time.timescale/totalTime;//time.value/time.timescale是当前时间
         }];
@@ -97,8 +136,22 @@
     return _playerLayer;
 }
 
-#pragma mark - PlayerItem
-- (AVPlayerItem *)getPlayerItemWithURLString:(NSString *)urlString
+#pragma mark -
+#pragma mark - 私有方法
++ (instancetype)pv_instanceView
+{
+    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
+}
+
+- (void)pv_resetUI
+{
+    [_slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
+    [_slider setMaximumTrackImage:[self pv_imageWithColor:[UIColor clearColor] size:CGSizeMake(300, 2)] forState:UIControlStateNormal];
+    [_progressView setProgressTintColor:[UIColor colorWithRed:135/255.0 green:206/255.0 blue:235/255.0 alpha:.8]];
+    [_progressView setTrackTintColor:[UIColor whiteColor]];
+}
+
+- (AVPlayerItem *)pv_getPlayerItemWithURLString:(NSString *)urlString
 {
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
@@ -106,13 +159,13 @@
 }
 
 #pragma mark - 观察者
-- (void)playerItemAddNotification
+- (void)pv_playerItemAddNotification
 {
     // 播放完成通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pv_playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
 }
 
-- (void)addObserverToPlayerItem:(AVPlayerItem *)playerItem
+- (void)pv_addObserverToPlayerItem:(AVPlayerItem *)playerItem
 {
     // 监听播放状态
     [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
@@ -120,90 +173,67 @@
     [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)playerItemRemoveNotification
+- (void)pv_playerItemRemoveNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
 }
 
-- (void)playerItemRemoveObserver
+- (void)pv_playerItemRemoveObserver
 {
     [self.player.currentItem removeObserver:self forKeyPath:@"status"];
     [self.player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
 }
 
--(void)playbackFinished:(NSNotification *)noti{
+-(void)pv_playbackFinished:(NSNotification *)noti{
     _playEnded = YES;
     if (_playButton.selected) {
         _playButton.selected = NO;
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"status"]) {
-        AVPlayerStatus status= [[change objectForKey:@"new"] intValue];
-        if (status == AVPlayerStatusReadyToPlay) {
-            [_activityView stopAnimating];
-            [self setTimeLabel];
-            // 开始自动播放
-            _playButton.enabled = YES;
-            _slider.enabled = YES;
-            [self playButtonClick:_playButton];
-        }
-    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-        NSArray *array = self.player.currentItem.loadedTimeRanges;
-        CMTimeRange timeRange = [array.firstObject CMTimeRangeValue];//本次缓冲时间范围
-        NSTimeInterval startSeconds = CMTimeGetSeconds(timeRange.start);//本次缓冲起始时间
-        NSTimeInterval durationSeconds = CMTimeGetSeconds(timeRange.duration);//缓冲时间
-        NSTimeInterval totalBuffer = startSeconds + durationSeconds;//缓冲总长度
-        float totalTime = CMTimeGetSeconds(self.player.currentItem.duration);//视频总长度
-        float progress = totalBuffer/totalTime;//缓冲进度
-        [_progressView setProgress:progress];
-    }
-}
-
-- (void)applicationWillResignActive:(NSNotification *)noti
+- (void)pv_applicationWillResignActive:(NSNotification *)noti
 {
     if (self.player.rate == 1) {
-        [self playButtonClick:_playButton];
+        [self pv_playButtonClick:_playButton];
     }
 }
 
 #pragma mark - 点击/滑动动作
-- (IBAction)playButtonClick:(UIButton *)sender {
+- (IBAction)pv_playButtonClick:(UIButton *)sender {
     if (self.player.rate == 0) {
         sender.selected = YES;
         _paused = NO;
-        [self play];
+        [self pv_play];
     } else if (self.player.rate == 1) {
         sender.selected = NO;
         _paused = YES;
-        [self pause];
+        [self pv_pause];
     }
 }
 
-- (IBAction)sliderTouchBegin:(UISlider *)sender {
-    [self pause];
+- (IBAction)pv_sliderTouchBegin:(UISlider *)sender {
+    [self pv_pause];
 }
 
-- (IBAction)sliderValueChanged:(UISlider *)sender {
+- (IBAction)pv_sliderValueChanged:(UISlider *)sender {
     NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.duration) * _slider.value;
     NSInteger currentMin = currentTime / 60;
     NSInteger currentSec = (NSInteger)currentTime % 60;
     _currentTime.text = [NSString stringWithFormat:@"%02td:%02td",currentMin,currentSec];
 }
 
-- (IBAction)sliderTouchEnd:(UISlider *)sender {
+- (IBAction)pv_sliderTouchEnd:(UISlider *)sender {
     NSTimeInterval slideTime = CMTimeGetSeconds(self.player.currentItem.duration) * _slider.value;
     if (slideTime == CMTimeGetSeconds(self.player.currentItem.duration)) {
         slideTime -= 0.5;
     }
     [self.player seekToTime:CMTimeMakeWithSeconds(slideTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     if (_paused == NO) {
-        [self play];
+        [self pv_play];
     }
 }
 
-- (IBAction)fullScreenBtnClick:(UIButton *)sender {
+- (IBAction)pv_fullScreenBtnClick:(UIButton *)sender {
     if ([_delegate respondsToSelector:@selector(didClickFullScreenButtonWithPlayerView:)]) {
         [_delegate didClickFullScreenButtonWithPlayerView:self];
         sender.selected = !sender.selected;
@@ -212,7 +242,7 @@
 }
 
 #pragma mark - Time Label
-- (void)setTimeLabel
+- (void)pv_setTimeLabel
 {
     NSTimeInterval totalTime = CMTimeGetSeconds(self.player.currentItem.duration);
     NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentTime);
@@ -232,7 +262,7 @@
 }
 
 #pragma mark - 播放状态
-- (void)play
+- (void)pv_play
 {
     // 如果已播放完毕，则重新从头开始播放
     if (_playEnded == YES) {
@@ -242,16 +272,16 @@
     [self.player play];
 }
 
-- (void)pause
+- (void)pv_pause
 {
     [self.player pause];
 }
 
-- (void)resetPlayer
+- (void)pv_resetPlayer
 {
     _playEnded = NO;
     _paused = NO;
-    [self pause];
+    [self pv_pause];
     if (_playButton.selected) {
         _playButton.selected = NO;
     }
@@ -259,27 +289,18 @@
 }
 
 #pragma mark - ToolView
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    if (_toolView.hidden == YES) {
-        [self showToolView];
-    } else {
-        [self hideToolView];
-    }
-}
-
-- (void)hideToolView
+- (void)pv_hideToolView
 {
     _toolView.hidden = YES;
 }
 
-- (void)showToolView
+- (void)pv_showToolView
 {
     _toolView.hidden = NO;
 }
 
 #pragma mark - 绘制图片
-- (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size
+- (UIImage *)pv_imageWithColor:(UIColor *)color size:(CGSize)size
 {
     @autoreleasepool {
         CGRect rect = CGRectMake(0, 0, size.width, size.height);
@@ -291,13 +312,6 @@
         UIGraphicsEndImageContext();
         return image;
     }
-}
-
-- (void)dealloc {
-    [self playerItemRemoveObserver];
-    [self.player replaceCurrentItemWithPlayerItem:nil];
-    [self.player removeTimeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

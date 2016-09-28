@@ -28,6 +28,9 @@
 - (PlayerView *)playerView
 {
     if (!_playerView) {
+        /** 使用下面两种初始化方法会抛出异常，必须使用viewWithFrame:方法来初始化 */
+        //_playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 200)];
+        //_playerView = [[PlayerView alloc] init];
         _playerView = [PlayerView viewWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 200)];
         _playerView.delegate = self;
         _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/0915/8224a236-7ac8-11e6-ba32-90b11c479401cut_wpd.mp4";

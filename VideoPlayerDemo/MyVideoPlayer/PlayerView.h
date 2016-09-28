@@ -15,7 +15,6 @@
 @end
 
 @interface PlayerView : UIView
-
 @property (nonatomic, weak) id<PlayerViewDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -36,6 +35,7 @@
 /** 是否是全屏 */
 @property (nonatomic, assign, readonly) BOOL fullScreen;
 
+/** 初始化方法 */
 + (instancetype)viewWithFrame:(CGRect)frame;
 @end
 

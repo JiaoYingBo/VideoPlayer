@@ -28,7 +28,7 @@
                             <state key="normal" image="fullscreen.png"/>
                             <state key="selected" image="shrinkscreen.png"/>
                             <connections>
-                                <action selector="fullScreenBtnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="mSA-KW-Dy2"/>
+                                <action selector="pv_fullScreenBtnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="fr8-gk-EXa"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7D-Qg-LLQ">
@@ -40,7 +40,7 @@
                             <state key="normal" image="play.png"/>
                             <state key="selected" image="pause.png"/>
                             <connections>
-                                <action selector="playButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="C1n-kP-mXn"/>
+                                <action selector="pv_playButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="zrN-OS-Yqh"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPJ-oL-feT">
@@ -51,10 +51,10 @@
                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wmk-C2-r54"/>
                         <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="An3-xp-tAX">
                             <connections>
-                                <action selector="sliderTouchBegin:" destination="iN0-l3-epB" eventType="touchDown" id="YSl-06-1xb"/>
-                                <action selector="sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpInside" id="UR4-hZ-4hV"/>
-                                <action selector="sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpOutside" id="th6-Xa-him"/>
-                                <action selector="sliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="6Ru-oy-a80"/>
+                                <action selector="pv_sliderTouchBegin:" destination="iN0-l3-epB" eventType="touchDown" id="MKE-Oe-YxG"/>
+                                <action selector="pv_sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpInside" id="FhH-Xr-MPD"/>
+                                <action selector="pv_sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpOutside" id="Fxb-Ij-D9v"/>
+                                <action selector="pv_sliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="1DJ-C3-ZOY"/>
                             </connections>
                         </slider>
                     </subviews>
@@ -105,7 +105,7 @@
                 <outlet property="toolView" destination="wIW-mY-xlg" id="Uxi-uh-1tS"/>
                 <outlet property="totalTime" destination="tfF-cR-mYF" id="bXQ-iJ-qML"/>
             </connections>
-            <point key="canvasLocation" x="-457" y="34"/>
+            <point key="canvasLocation" x="-556" y="29"/>
         </view>
     </objects>
     <resources>
