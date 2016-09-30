@@ -11,6 +11,7 @@
 
 @class PlayerView;
 @protocol PlayerViewDelegate <NSObject>
+@optional
 - (void)didClickFullScreenButtonWithPlayerView:(PlayerView *)playerView;
 @end
 
