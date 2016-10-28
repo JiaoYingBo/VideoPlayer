@@ -27,14 +27,10 @@
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
-/** 视频地址 */
-@property (nonatomic, copy) NSString *urlString;
+
+@property (nonatomic, copy) NSString *urlString; //视频地址
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
-/** 是否播放完毕 */
-@property (nonatomic, assign, readonly) BOOL playEnded;
-/** 是否是全屏 */
-@property (nonatomic, assign, readonly) BOOL fullScreen;
 
 /** 初始化方法 */
 + (instancetype)viewWithFrame:(CGRect)frame;
@@ -42,6 +38,7 @@
 - (void)pv_play;
 /** 暂停 */
 - (void)pv_pause;
+
 @end
 
 @interface ToolView : UIView
