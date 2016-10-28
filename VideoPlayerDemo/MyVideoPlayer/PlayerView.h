@@ -31,6 +31,8 @@
 @property (nonatomic, copy) NSString *urlString; //视频地址
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
+@property (nonatomic, assign, readonly) BOOL playEnded; //是否播放完毕
+@property (nonatomic, assign, readonly) BOOL fullScreen; //是否是全屏
 
 /** 初始化方法 */
 + (instancetype)viewWithFrame:(CGRect)frame;

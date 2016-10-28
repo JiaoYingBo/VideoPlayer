@@ -18,10 +18,6 @@ typedef struct {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
 /** 记录暂停状态 */
 @property (nonatomic ,assign) BOOL paused;
-/** 是否播放完毕 */
-@property (nonatomic, assign, readonly) BOOL playEnded;
-/** 是否是全屏 */
-@property (nonatomic, assign, readonly) BOOL fullScreen;
 @property (nonatomic, strong) id playbackObserver;
 /** 记录delegate响应了哪些方法 */
 @property (nonatomic, assign) DelegateFlags delegateFlags;
