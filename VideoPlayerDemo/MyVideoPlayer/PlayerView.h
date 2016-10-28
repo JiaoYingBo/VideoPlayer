@@ -38,6 +38,10 @@
 
 /** 初始化方法 */
 + (instancetype)viewWithFrame:(CGRect)frame;
+/** 播放 */
+- (void)pv_play;
+/** 暂停 */
+- (void)pv_pause;
 @end
 
 @interface ToolView : UIView

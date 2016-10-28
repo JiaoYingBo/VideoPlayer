@@ -18,6 +18,7 @@ typedef struct {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
 /** 记录暂停状态 */
 @property (nonatomic ,assign) BOOL paused;
+@property (nonatomic, strong) id playbackObserver;
 /** 记录delegate响应了哪些方法 */
 @property (nonatomic, assign) DelegateFlags delegateFlags;
 @end
@@ -63,9 +64,9 @@ typedef struct {
 }
 
 - (void)dealloc {
+    [self.player removeTimeObserver:self.playbackObserver];
     [self pv_playerItemRemoveObserver];
     [self.player replaceCurrentItemWithPlayerItem:nil];
-    [self.player removeTimeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -101,7 +102,7 @@ typedef struct {
     }
 }
 
-#pragma mark - setter方法
+#pragma mark - setter
 - (void)setUrlString:(NSString *)urlString
 {
     _urlString = urlString;
@@ -124,14 +125,14 @@ typedef struct {
     _delegateFlags.didClickFullScreenButton = [delegate respondsToSelector:@selector(didClickFullScreenButtonWithPlayerView:)];
 }
 
-#pragma mark - 懒加载
+#pragma mark - getter
 - (AVPlayer *)player
 {
     if (!_player) {
         _player = [[AVPlayer alloc] init];
         __weak typeof(self) weakSelf = self;
         // 播放1s回调一次
-        [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
+        _playbackObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
             [weakSelf pv_setTimeLabel];
             NSTimeInterval totalTime = CMTimeGetSeconds(weakSelf.player.currentItem.duration);
             weakSelf.slider.value = time.value/time.timescale/totalTime;//time.value/time.timescale是当前时间
