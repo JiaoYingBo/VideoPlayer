@@ -32,7 +32,7 @@
         //_playerView = [[PlayerView alloc] init];
         _playerView = [PlayerView viewWithFrame:CGRectMake(0, 70, self.view.bounds.size.width, 200)];
         _playerView.delegate = self;
-        _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/0915/8224a236-7ac8-11e6-ba32-90b11c479401cut_wpd.mp4";
+        _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
     }
     return _playerView;
 }
@@ -48,12 +48,12 @@
 #pragma mark - 切换视频
 // 播放视频1
 - (IBAction)video1:(id)sender {
-    _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/0915/8224a236-7ac8-11e6-ba32-90b11c479401cut_wpd.mp4";
+    _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
 }
 
 // 播放视频2
 - (IBAction)video2:(id)sender {
-    _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/0921/68ad32f4-7fb5-11e6-baa3-90b11c479401cut_wpd.mp4";
+    _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/c7257f48-aa68-11e6-990d-d4ae5296039d_wpd.mp4";
 }
 
 #pragma mark - PlayerView delegate
