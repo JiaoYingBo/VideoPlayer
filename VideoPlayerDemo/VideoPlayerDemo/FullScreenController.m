@@ -19,11 +19,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
-// 不自动旋转
+/** 不自动旋转 */
 - (BOOL)shouldAutorotate {
     return NO;
 }
-// 横屏显示
+/** 横屏显示 */
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
     return UIInterfaceOrientationLandscapeLeft;
 }

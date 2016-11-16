@@ -46,40 +46,41 @@
 }
 
 #pragma mark - 切换视频
-// 播放视频1
+/** 播放视频1 */
 - (IBAction)video1:(id)sender {
-    _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
+    self.playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
 }
 
-// 播放视频2
+/** 播放视频2 */
 - (IBAction)video2:(id)sender {
-    _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/c7257f48-aa68-11e6-990d-d4ae5296039d_wpd.mp4";
+    self.playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/c7257f48-aa68-11e6-990d-d4ae5296039d_wpd.mp4";
 }
 
 #pragma mark - PlayerView delegate
-- (void)didClickFullScreenButtonWithPlayerView:(PlayerView *)playerView
+/** 代理回调 */
+- (void)playerViewDidClickFullScreenButton:(PlayerView *)playerView
 {
-    if (_playerView.fullScreen == NO) {
+    if (self.playerView.fullScreen == NO) {
         self.fullVC.fullScreenVC = self;
         [self presentViewController:self.fullVC animated:NO completion:^{
-            _playerView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-            [self.fullVC.view addSubview:_playerView];
+            self.playerView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+            [self.fullVC.view addSubview:self.playerView];
         }];
     } else {
         [self dismissViewControllerAnimated:NO completion:^{
             CGFloat width = MIN(self.view.bounds.size.height, self.view.bounds.size.width);
-            _playerView.frame = CGRectMake(0, 70, width, 200);
-            [self.view addSubview:_playerView];
+            self.playerView.frame = CGRectMake(0, 70, width, 200);
+            [self.view addSubview:self.playerView];
         }];
     }
 }
 
 #pragma mark - 屏幕旋转
-// 不自动旋转
+/** 不自动旋转 */
 - (BOOL)shouldAutorotate {
     return NO;
 }
-// 竖屏显示
+/** 竖屏显示 */
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
     return UIInterfaceOrientationPortrait;
 }

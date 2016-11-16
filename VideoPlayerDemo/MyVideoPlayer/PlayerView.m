@@ -115,7 +115,7 @@ typedef struct {
 
 - (void)setDelegate:(id<PlayerViewDelegate>)delegate {
     _delegate = delegate;
-    _delegateFlags.didClickFullScreenButton = [delegate respondsToSelector:@selector(didClickFullScreenButtonWithPlayerView:)];
+    _delegateFlags.didClickFullScreenButton = [delegate respondsToSelector:@selector(playerViewDidClickFullScreenButton:)];
 }
 
 #pragma mark - getter
@@ -231,7 +231,7 @@ typedef struct {
 
 - (IBAction)pv_fullScreenBtnClick:(UIButton *)sender {
     if (_delegateFlags.didClickFullScreenButton) {
-        [self.delegate didClickFullScreenButtonWithPlayerView:self];
+        [self.delegate playerViewDidClickFullScreenButton:self];
         sender.selected = !sender.selected;
     }
     self.fullScreen = !self.fullScreen;

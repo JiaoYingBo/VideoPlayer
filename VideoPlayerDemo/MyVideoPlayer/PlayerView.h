@@ -12,7 +12,7 @@
 @class PlayerView;
 @protocol PlayerViewDelegate <NSObject>
 @optional
-- (void)didClickFullScreenButtonWithPlayerView:(PlayerView *)playerView;
+- (void)playerViewDidClickFullScreenButton:(PlayerView *)playerView;
 @end
 
 @interface PlayerView : UIView
@@ -36,10 +36,6 @@
 
 /** 初始化方法 */
 + (instancetype)viewWithFrame:(CGRect)frame;
-/** 播放 */
-- (void)pv_play;
-/** 暂停 */
-- (void)pv_pause;
 
 @end
 
