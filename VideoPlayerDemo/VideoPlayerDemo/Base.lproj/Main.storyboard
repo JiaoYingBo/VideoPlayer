@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wjO-o2-WkG">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,21 +22,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdK-Lh-JiN">
+                                <rect key="frame" x="87" y="263.5" width="200" height="40"/>
+                                <color key="backgroundColor" red="0.63664339423909555" green="0.92549019607843142" blue="0.92347636104570219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="FQi-B7-Fqt"/>
-                                    <constraint firstAttribute="height" constant="30" id="MWX-kT-IYI"/>
+                                    <constraint firstAttribute="width" constant="200" id="nwO-S7-zu8"/>
+                                    <constraint firstAttribute="height" constant="40" id="nzK-nl-sar"/>
                                 </constraints>
-                                <state key="normal" title="视频一"/>
+                                <state key="normal" title="网络视频"/>
                                 <connections>
                                     <action selector="video1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="26X-Xn-6ou"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pD-u3-1A3">
+                                <rect key="frame" x="87" y="363.5" width="200" height="40"/>
+                                <color key="backgroundColor" red="0.63664339423909555" green="0.92549019607843142" blue="0.92347636104570219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="59U-Li-dRh"/>
-                                    <constraint firstAttribute="height" constant="30" id="l1a-uF-V7v"/>
+                                    <constraint firstAttribute="height" constant="40" id="Mwn-JH-KEF"/>
+                                    <constraint firstAttribute="width" constant="200" id="TtV-3w-8t7"/>
                                 </constraints>
-                                <state key="normal" title="视频二"/>
+                                <state key="normal" title="本地视频"/>
                                 <connections>
                                     <action selector="video2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VNf-dg-0lR"/>
                                 </connections>
@@ -41,10 +48,10 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6pD-u3-1A3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="60" id="59h-ch-US1"/>
-                            <constraint firstItem="vdK-Lh-JiN" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Nk0-Uo-NtF"/>
-                            <constraint firstItem="vdK-Lh-JiN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-60" id="had-Lf-Q2X"/>
-                            <constraint firstItem="6pD-u3-1A3" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="vjS-uk-q3a"/>
+                            <constraint firstItem="6pD-u3-1A3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8vK-Tz-BP8"/>
+                            <constraint firstItem="vdK-Lh-JiN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fpf-hI-HaG"/>
+                            <constraint firstItem="6pD-u3-1A3" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="50" id="ity-j5-ZSJ"/>
+                            <constraint firstItem="vdK-Lh-JiN" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-50" id="xNG-OH-HzY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wdg-gc-N4Y"/>
@@ -52,6 +59,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-97" y="91"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="OML-FE-8np">
+            <objects>
+                <navigationController id="wjO-o2-WkG" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="L3G-JA-88i">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="aml-c9-OiR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ckw-vP-y7w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-801" y="90"/>
         </scene>
     </scenes>
 </document>

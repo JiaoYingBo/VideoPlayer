@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "LocalVideoController.h"
+#import "NetworkVideoController.h"
 #import "FullScreenController.h"
 #import "PlayerView.h"
 
@@ -20,7 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.playerView];
+    self.title = @"AVPlayer";
+//    [self.view addSubview:self.playerView];
 }
 
 #pragma mark - 懒加载
@@ -48,12 +51,18 @@
 #pragma mark - 切换视频
 /** 播放视频1 */
 - (IBAction)video1:(id)sender {
-    self.playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
+//    self.playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
+    
+    NetworkVideoController *network = [[NetworkVideoController alloc] init];
+    [self.navigationController pushViewController:network animated:YES];
 }
 
 /** 播放视频2 */
 - (IBAction)video2:(id)sender {
-    self.playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/c7257f48-aa68-11e6-990d-d4ae5296039d_wpd.mp4";
+//    self.playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/c7257f48-aa68-11e6-990d-d4ae5296039d_wpd.mp4";
+    
+    LocalVideoController *local = [[LocalVideoController alloc] init];
+    [self.navigationController pushViewController:local animated:YES];
 }
 
 #pragma mark - PlayerView delegate

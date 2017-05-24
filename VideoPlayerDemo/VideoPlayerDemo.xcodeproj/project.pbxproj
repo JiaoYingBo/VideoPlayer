@@ -15,6 +15,10 @@
 		0E037CD41D93FF0C008804BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E037CD21D93FF0C008804BC /* LaunchScreen.storyboard */; };
 		0E037CDF1D93FF0D008804BC /* VideoPlayerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E037CDE1D93FF0D008804BC /* VideoPlayerDemoTests.m */; };
 		0E037CEA1D93FF0D008804BC /* VideoPlayerDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E037CE91D93FF0D008804BC /* VideoPlayerDemoUITests.m */; };
+		0E3880D11ED43961007C8FD9 /* NetworkVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3880D01ED43961007C8FD9 /* NetworkVideoController.m */; };
+		0E3880D41ED43973007C8FD9 /* LocalVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3880D31ED43973007C8FD9 /* LocalVideoController.m */; };
+		0E3880D61ED52120007C8FD9 /* localvideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0E3880D51ED52120007C8FD9 /* localvideo.mp4 */; };
+		0E3880D81ED52304007C8FD9 /* local1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0E3880D71ED52304007C8FD9 /* local1.mp4 */; };
 		0EED6C5D1D94010B0064E58D /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EED6C5A1D94010B0064E58D /* PlayerView.m */; };
 		0EED6C5E1D94010B0064E58D /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EED6C5B1D94010B0064E58D /* PlayerView.xib */; };
 		0EED6C611D9401300064E58D /* FullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EED6C601D9401300064E58D /* FullScreenController.m */; };
@@ -64,6 +68,12 @@
 		0E037CE51D93FF0D008804BC /* VideoPlayerDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoPlayerDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E037CE91D93FF0D008804BC /* VideoPlayerDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerDemoUITests.m; sourceTree = "<group>"; };
 		0E037CEB1D93FF0D008804BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0E3880CF1ED43961007C8FD9 /* NetworkVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkVideoController.h; sourceTree = "<group>"; };
+		0E3880D01ED43961007C8FD9 /* NetworkVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkVideoController.m; sourceTree = "<group>"; };
+		0E3880D21ED43973007C8FD9 /* LocalVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalVideoController.h; sourceTree = "<group>"; };
+		0E3880D31ED43973007C8FD9 /* LocalVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalVideoController.m; sourceTree = "<group>"; };
+		0E3880D51ED52120007C8FD9 /* localvideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = localvideo.mp4; sourceTree = "<group>"; };
+		0E3880D71ED52304007C8FD9 /* local1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = local1.mp4; sourceTree = "<group>"; };
 		0EED6C591D94010B0064E58D /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
 		0EED6C5A1D94010B0064E58D /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		0EED6C5B1D94010B0064E58D /* PlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerView.xib; sourceTree = "<group>"; };
@@ -134,12 +144,18 @@
 				0E037CC81D93FF0C008804BC /* AppDelegate.m */,
 				0E037CCA1D93FF0C008804BC /* ViewController.h */,
 				0E037CCB1D93FF0C008804BC /* ViewController.m */,
+				0E3880CF1ED43961007C8FD9 /* NetworkVideoController.h */,
+				0E3880D01ED43961007C8FD9 /* NetworkVideoController.m */,
+				0E3880D21ED43973007C8FD9 /* LocalVideoController.h */,
+				0E3880D31ED43973007C8FD9 /* LocalVideoController.m */,
 				0EED6C5F1D9401300064E58D /* FullScreenController.h */,
 				0EED6C601D9401300064E58D /* FullScreenController.m */,
 				0E037CCD1D93FF0C008804BC /* Main.storyboard */,
 				0E037CD01D93FF0C008804BC /* Assets.xcassets */,
 				0E037CD21D93FF0C008804BC /* LaunchScreen.storyboard */,
 				0E037CD51D93FF0C008804BC /* Info.plist */,
+				0E3880D71ED52304007C8FD9 /* local1.mp4 */,
+				0E3880D51ED52120007C8FD9 /* localvideo.mp4 */,
 				0E037CC41D93FF0C008804BC /* Supporting Files */,
 			);
 			path = VideoPlayerDemo;
@@ -266,6 +282,7 @@
 				TargetAttributes = {
 					0E037CC01D93FF0C008804BC = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = P9VZ5WEEZW;
 						ProvisioningStyle = Automatic;
 					};
 					0E037CD91D93FF0D008804BC = {
@@ -307,6 +324,7 @@
 			files = (
 				0EED6C761D9402AB0064E58D /* shrinkscreen@3x.png in Resources */,
 				0EED6C741D9402AB0064E58D /* point@3x.png in Resources */,
+				0E3880D81ED52304007C8FD9 /* local1.mp4 in Resources */,
 				0EED6C701D9402AB0064E58D /* pause@3x.png in Resources */,
 				0E037CD41D93FF0C008804BC /* LaunchScreen.storyboard in Resources */,
 				0EED6C711D9402AB0064E58D /* play@2x.png in Resources */,
@@ -319,6 +337,7 @@
 				0EED6C751D9402AB0064E58D /* shrinkscreen@2x.png in Resources */,
 				0EED6C5E1D94010B0064E58D /* PlayerView.xib in Resources */,
 				0EED6C6F1D9402AB0064E58D /* pause@2x.png in Resources */,
+				0E3880D61ED52120007C8FD9 /* localvideo.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,11 +362,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E3880D11ED43961007C8FD9 /* NetworkVideoController.m in Sources */,
 				0E037CCC1D93FF0C008804BC /* ViewController.m in Sources */,
 				0E037CC91D93FF0C008804BC /* AppDelegate.m in Sources */,
 				0E037CC61D93FF0C008804BC /* main.m in Sources */,
 				0EED6C5D1D94010B0064E58D /* PlayerView.m in Sources */,
 				0EED6C611D9401300064E58D /* FullScreenController.m in Sources */,
+				0E3880D41ED43973007C8FD9 /* LocalVideoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,10 +515,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = P9VZ5WEEZW;
 				INFOPLIST_FILE = VideoPlayerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jyb.VideoPlayerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = jyb.git.VideoPlayerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -506,10 +528,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = P9VZ5WEEZW;
 				INFOPLIST_FILE = VideoPlayerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jyb.VideoPlayerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = jyb.git.VideoPlayerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

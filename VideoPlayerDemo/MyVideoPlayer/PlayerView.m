@@ -9,10 +9,11 @@
 #import "PlayerView.h"
 #import "FullScreenController.h"
 
-@interface PlayerView ()
 typedef struct {
     unsigned int didClickFullScreenButton : 1;
 } DelegateFlags; //记录delegate响应了哪些方法，这里只有一个代理方法
+
+@interface PlayerView ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderLeadingCtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
@@ -35,7 +36,7 @@ typedef struct {
 
 #pragma mark - 系统方法
 - (instancetype)initWithFrame:(CGRect)frame {
-    // 写这行是为了消除Xcode8上的警告，强迫症！
+    // 写这行是为了消除Xcode8上的警告
     self = [super initWithFrame:frame];
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须使用 viewWithFrame: 方法初始化" userInfo:nil];
 }
@@ -113,9 +114,26 @@ typedef struct {
     });
 }
 
+- (void)setPathString:(NSString *)pathString {
+    _pathString = pathString;
+    [self pv_resetPlayer];
+    if (self.player.currentItem != nil) {
+        [self pv_playerItemRemoveNotification];
+        [self pv_playerItemRemoveObserver];
+    }
+    AVPlayerItem *playerItem = [self pv_getPlayerItemWithPath:pathString];
+    [self pv_addObserverToPlayerItem:playerItem];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self.player replaceCurrentItemWithPlayerItem:playerItem];
+        [self pv_playerItemAddNotification];
+    });
+}
+
 - (void)setDelegate:(id<PlayerViewDelegate>)delegate {
     _delegate = delegate;
-    _delegateFlags.didClickFullScreenButton = [delegate respondsToSelector:@selector(playerViewDidClickFullScreenButton:)];
+    if ([delegate respondsToSelector:@selector(playerViewDidClickFullScreenButton:)]) {
+        _delegateFlags.didClickFullScreenButton = [delegate respondsToSelector:@selector(playerViewDidClickFullScreenButton:)];
+    }
 }
 
 #pragma mark - getter
@@ -156,6 +174,13 @@ typedef struct {
 - (AVPlayerItem *)pv_getPlayerItemWithURLString:(NSString *)urlString {
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
+    return item;
+}
+
+- (AVPlayerItem *)pv_getPlayerItemWithPath:(NSString *)pathString {
+    NSURL *sourceMovieUrl = [NSURL fileURLWithPath:pathString];
+    AVAsset *movieAsset = [AVURLAsset URLAssetWithURL:sourceMovieUrl options:nil];
+    AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:movieAsset];
     return item;
 }
 

@@ -10,12 +10,17 @@
 #import <AVFoundation/AVFoundation.h>
 
 @class PlayerView;
+
 @protocol PlayerViewDelegate <NSObject>
+
 @optional
+
 - (void)playerViewDidClickFullScreenButton:(PlayerView *)playerView;
+
 @end
 
 @interface PlayerView : UIView
+
 @property (nonatomic, weak) id<PlayerViewDelegate>delegate;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -28,7 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 
-@property (nonatomic, copy) NSString *urlString; //视频地址
+@property (nonatomic, copy) NSString *urlString; //网络视频地址
+@property (nonatomic, copy) NSString *pathString; //本地视频地址
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, assign, readonly) BOOL playEnded; //是否播放完毕
