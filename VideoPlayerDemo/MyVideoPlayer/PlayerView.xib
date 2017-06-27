@@ -21,86 +21,11 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="2RH-hu-5dL">
                     <rect key="frame" x="169" y="81.5" width="37" height="37"/>
                 </activityIndicatorView>
-                <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="wIW-mY-xlg" userLabel="Tool View" customClass="ToolView">
-                    <rect key="frame" x="0.0" y="150" width="375" height="50"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfF-cR-mYF">
-                            <rect key="frame" x="283.5" y="17" width="36.5" height="16"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRE-wo-BnY">
-                            <rect key="frame" x="325" y="0.0" width="50" height="50"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="50" id="JWt-HO-kAN"/>
-                                <constraint firstAttribute="height" constant="50" id="h9g-wN-3Lm"/>
-                            </constraints>
-                            <state key="normal" image="fullscreen.png"/>
-                            <state key="selected" image="shrinkscreen.png"/>
-                            <connections>
-                                <action selector="pv_fullScreenBtnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="fr8-gk-EXa"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7D-Qg-LLQ">
-                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="50" id="dot-6I-o46"/>
-                                <constraint firstAttribute="height" constant="50" id="vir-hI-SG3"/>
-                            </constraints>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="14" maxX="0.0" maxY="14"/>
-                            <state key="normal" image="play.png"/>
-                            <state key="selected" image="pause.png"/>
-                            <connections>
-                                <action selector="pv_playButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="zrN-OS-Yqh"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPJ-oL-feT">
-                            <rect key="frame" x="55" y="17" width="36.5" height="16"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wmk-C2-r54">
-                            <rect key="frame" x="101" y="24.5" width="173" height="2"/>
-                        </progressView>
-                        <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="An3-xp-tAX">
-                            <rect key="frame" x="99" y="10" width="177" height="31"/>
-                            <connections>
-                                <action selector="pv_sliderTouchBegin:" destination="iN0-l3-epB" eventType="touchDown" id="MKE-Oe-YxG"/>
-                                <action selector="pv_sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpInside" id="FhH-Xr-MPD"/>
-                                <action selector="pv_sliderTouchEnd:" destination="iN0-l3-epB" eventType="touchUpOutside" id="Fxb-Ij-D9v"/>
-                                <action selector="pv_sliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="1DJ-C3-ZOY"/>
-                            </connections>
-                        </slider>
-                    </subviews>
-                    <color key="backgroundColor" red="0.19402405104712039" green="0.19402405104712039" blue="0.19402405104712039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstItem="Wmk-C2-r54" firstAttribute="centerY" secondItem="An3-xp-tAX" secondAttribute="centerY" constant="0.5" id="1WU-nC-AGU"/>
-                        <constraint firstAttribute="width" constant="375" id="2MJ-2q-h0c"/>
-                        <constraint firstAttribute="height" constant="50" id="4eF-68-YdN"/>
-                        <constraint firstItem="tfF-cR-mYF" firstAttribute="centerY" secondItem="wIW-mY-xlg" secondAttribute="centerY" id="G3s-pi-t9t"/>
-                        <constraint firstItem="xRE-wo-BnY" firstAttribute="leading" secondItem="tfF-cR-mYF" secondAttribute="trailing" constant="5" id="I7w-4y-YjC"/>
-                        <constraint firstItem="An3-xp-tAX" firstAttribute="leading" secondItem="X7D-Qg-LLQ" secondAttribute="trailing" constant="51" id="IDg-fF-0tx"/>
-                        <constraint firstItem="Wmk-C2-r54" firstAttribute="width" secondItem="An3-xp-tAX" secondAttribute="width" id="KCb-J6-Ecr"/>
-                        <constraint firstItem="An3-xp-tAX" firstAttribute="centerY" secondItem="wIW-mY-xlg" secondAttribute="centerY" id="Q3f-UJ-b68"/>
-                        <constraint firstAttribute="trailing" secondItem="xRE-wo-BnY" secondAttribute="trailing" id="SGe-uL-DXh"/>
-                        <constraint firstItem="aPJ-oL-feT" firstAttribute="centerY" secondItem="wIW-mY-xlg" secondAttribute="centerY" id="ZB0-dG-SQY"/>
-                        <constraint firstItem="xRE-wo-BnY" firstAttribute="leading" secondItem="An3-xp-tAX" secondAttribute="trailing" constant="51" id="e2g-8h-4HR"/>
-                        <constraint firstItem="aPJ-oL-feT" firstAttribute="leading" secondItem="X7D-Qg-LLQ" secondAttribute="trailing" constant="5" id="eTb-Ut-sTt"/>
-                        <constraint firstItem="Wmk-C2-r54" firstAttribute="centerX" secondItem="An3-xp-tAX" secondAttribute="centerX" id="h9h-fv-2Wr"/>
-                        <constraint firstItem="X7D-Qg-LLQ" firstAttribute="top" secondItem="wIW-mY-xlg" secondAttribute="top" id="jGg-22-Lod"/>
-                        <constraint firstItem="xRE-wo-BnY" firstAttribute="top" secondItem="wIW-mY-xlg" secondAttribute="top" id="pBg-0Q-TgC"/>
-                        <constraint firstItem="X7D-Qg-LLQ" firstAttribute="leading" secondItem="wIW-mY-xlg" secondAttribute="leading" id="zL5-mN-wGh"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="XOm-SD-wLh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1yX-h4-oJe"/>
-                <constraint firstItem="wIW-mY-xlg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="150" id="8S4-s6-5P4"/>
                 <constraint firstItem="XOm-SD-wLh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="KiT-XC-lRb"/>
-                <constraint firstItem="wIW-mY-xlg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="NW9-ML-ZSd"/>
                 <constraint firstAttribute="bottom" secondItem="XOm-SD-wLh" secondAttribute="bottom" id="Nbf-lD-nq7"/>
                 <constraint firstItem="2RH-hu-5dL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Xw9-6T-DYf"/>
                 <constraint firstItem="2RH-hu-5dL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Xz6-ao-3sP"/>
@@ -109,24 +34,9 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="activityView" destination="2RH-hu-5dL" id="ME8-HD-OQk"/>
-                <outlet property="currentTime" destination="aPJ-oL-feT" id="kWY-Ix-sif"/>
-                <outlet property="fullButton" destination="xRE-wo-BnY" id="ZdG-d9-YPu"/>
                 <outlet property="imageView" destination="XOm-SD-wLh" id="gOH-4R-hR3"/>
-                <outlet property="playButton" destination="X7D-Qg-LLQ" id="XGS-4U-hsx"/>
-                <outlet property="progressView" destination="Wmk-C2-r54" id="sil-bx-FGU"/>
-                <outlet property="slider" destination="An3-xp-tAX" id="Ogd-2E-wqD"/>
-                <outlet property="sliderLeadingCtn" destination="IDg-fF-0tx" id="BNj-f9-xNc"/>
-                <outlet property="sliderTrailingCtn" destination="e2g-8h-4HR" id="ffU-rr-aJo"/>
-                <outlet property="toolView" destination="wIW-mY-xlg" id="Uxi-uh-1tS"/>
-                <outlet property="totalTime" destination="tfF-cR-mYF" id="bXQ-iJ-qML"/>
             </connections>
             <point key="canvasLocation" x="-617" y="26"/>
         </view>
     </objects>
-    <resources>
-        <image name="fullscreen.png" width="15" height="15"/>
-        <image name="pause.png" width="12" height="19"/>
-        <image name="play.png" width="18" height="20"/>
-        <image name="shrinkscreen.png" width="15" height="15"/>
-    </resources>
 </document>

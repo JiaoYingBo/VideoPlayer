@@ -38,8 +38,3 @@ typedef NS_ENUM(NSUInteger, MovieViewState) {
 - (void)playWithLocalURL:(NSString *)url;
 
 @end
-
-
-@interface ToolView : UIView
-
-@end

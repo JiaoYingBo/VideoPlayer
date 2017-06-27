@@ -7,7 +7,7 @@
 //
 
 #import "PlayerView.h"
-#import "FullScreenController.h"
+#import "YBPlayerToolView.h"
 
 typedef struct {
     unsigned int didClickFullScreenButton : 1;
@@ -16,16 +16,8 @@ typedef struct {
 @interface PlayerView ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIView *toolView;
-@property (weak, nonatomic) IBOutlet UILabel *currentTime;
-@property (weak, nonatomic) IBOutlet UILabel *totalTime;
-@property (weak, nonatomic) IBOutlet UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UIButton *fullButton;
-@property (weak, nonatomic) IBOutlet UISlider *slider;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderLeadingCtn;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
+@property (nonatomic, strong) YBPlayerToolView *toolView;
 
 @property (nonatomic, copy) NSString *urlString; //网络视频地址
 @property (nonatomic, copy) NSString *pathString; //本地视频地址
@@ -38,6 +30,7 @@ typedef struct {
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign, readwrite) BOOL playEnded; //是否播放完毕
 @property (nonatomic, assign, readwrite) BOOL fullScreen; //是否是全屏
+@property (nonatomic, assign) CGRect toolFrame;
 
 // 记录小屏时的parentView
 @property (nonatomic, weak) UIView *movieViewParentView;
@@ -58,14 +51,15 @@ typedef struct {
 
 #pragma mark - 系统方法
 - (instancetype)initWithFrame:(CGRect)frame {
-    // 写这行是为了消除Xcode8上的警告
-    self = [super initWithFrame:frame];
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须使用 viewWithFrame: 方法初始化" userInfo:nil];
+    if (self = [super initWithFrame:frame]) {
+        
+    }
+    return self;
 }
 
-- (instancetype)init {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须使用 viewWithFrame: 方法初始化" userInfo:nil];
-}
+//- (instancetype)init {
+//    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须使用 viewWithFrame: 方法初始化" userInfo:nil];
+//}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -75,6 +69,17 @@ typedef struct {
     self.fullScreen = NO;
     self.paused = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pv_applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    self.toolView = [YBPlayerToolView instanceView];
+    self.toolFrame = CGRectMake(0, self.bounds.size.height-50, self.bounds.size.width, 50);
+    self.toolView.frame = self.toolFrame;
+    self.toolView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    [self addSubview:self.toolView];
+    [self.toolView.playButton addTarget:self action:@selector(pv_playButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.toolView.slider addTarget:self action:@selector(pv_sliderTouchBegin:) forControlEvents:UIControlEventTouchDown];
+    [self.toolView.slider addTarget:self action:@selector(pv_sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.toolView.slider addTarget:self action:@selector(pv_sliderTouchEnd:) forControlEvents:UIControlEventTouchUpInside];
+    [self.toolView.fullButton addTarget:self action:@selector(pv_fullScreenBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)layoutSubviews {
@@ -96,9 +101,9 @@ typedef struct {
             [self.activityView stopAnimating];
             [self pv_setTimeLabel];
             // 开始自动播放
-            self.playButton.enabled = YES;
-            self.slider.enabled = YES;
-            [self pv_playButtonClick:self.playButton];
+            self.toolView.playButton.enabled = YES;
+            self.toolView.slider.enabled = YES;
+            [self pv_playButtonClick:self.toolView.playButton];
         }
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         NSArray *array = self.player.currentItem.loadedTimeRanges;
@@ -108,7 +113,7 @@ typedef struct {
         NSTimeInterval totalBuffer = startSeconds + durationSeconds;//缓冲总长度
         float totalTime = CMTimeGetSeconds(self.player.currentItem.duration);//视频总长度
         float progress = totalBuffer/totalTime;//缓冲进度
-        [self.progressView setProgress:progress];
+        [self.toolView.progressView setProgress:progress];
     }
 }
 
@@ -178,7 +183,7 @@ typedef struct {
         self.playbackObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
             [weakSelf pv_setTimeLabel];
             NSTimeInterval totalTime = CMTimeGetSeconds(weakSelf.player.currentItem.duration);
-            weakSelf.slider.value = time.value/time.timescale/totalTime;//time.value/time.timescale是当前时间
+            weakSelf.toolView.slider.value = time.value/time.timescale/totalTime;//time.value/time.timescale是当前时间
         }];
     }
     return _player;
@@ -198,10 +203,10 @@ typedef struct {
 }
 
 - (void)pv_resetUI {
-    [self.slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
-    [self.slider setMaximumTrackImage:[self pv_imageWithColor:[UIColor clearColor] size:CGSizeMake(300, 2)] forState:UIControlStateNormal];
-    [self.progressView setProgressTintColor:[UIColor colorWithRed:135/255.0 green:206/255.0 blue:235/255.0 alpha:.8]];
-    [self.progressView setTrackTintColor:[UIColor whiteColor]];
+    [self.toolView.slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
+    [self.toolView.slider setMaximumTrackImage:[self pv_imageWithColor:[UIColor clearColor] size:CGSizeMake(300, 2)] forState:UIControlStateNormal];
+    [self.toolView.progressView setProgressTintColor:[UIColor colorWithRed:135/255.0 green:206/255.0 blue:235/255.0 alpha:.8]];
+    [self.toolView.progressView setTrackTintColor:[UIColor whiteColor]];
 }
 
 - (AVPlayerItem *)pv_getPlayerItemWithURLString:(NSString *)urlString {
@@ -241,19 +246,19 @@ typedef struct {
 
 -(void)pv_playbackFinished:(NSNotification *)noti {
     self.playEnded = YES;
-    if (self.playButton.selected) {
-        self.playButton.selected = NO;
+    if (self.toolView.playButton.selected) {
+        self.toolView.playButton.selected = NO;
     }
 }
 
 - (void)pv_applicationWillResignActive:(NSNotification *)noti {
     if (self.player.rate == 1) {
-        [self pv_playButtonClick:self.playButton];
+        [self pv_playButtonClick:self.toolView.playButton];
     }
 }
 
 #pragma mark - 点击/滑动动作
-- (IBAction)pv_playButtonClick:(UIButton *)sender {
+- (void)pv_playButtonClick:(UIButton *)sender {
     if (self.player.rate == 0) {
         sender.selected = YES;
         self.paused = NO;
@@ -270,14 +275,14 @@ typedef struct {
 }
 
 - (IBAction)pv_sliderValueChanged:(UISlider *)sender {
-    NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.duration) * self.slider.value;
+    NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.duration) * self.toolView.slider.value;
     NSInteger currentMin = currentTime / 60;
     NSInteger currentSec = (NSInteger)currentTime % 60;
-    self.currentTime.text = [NSString stringWithFormat:@"%02td:%02td",currentMin,currentSec];
+    self.toolView.currentTime.text = [NSString stringWithFormat:@"%02td:%02td",currentMin,currentSec];
 }
 
 - (IBAction)pv_sliderTouchEnd:(UISlider *)sender {
-    NSTimeInterval slideTime = CMTimeGetSeconds(self.player.currentItem.duration) * self.slider.value;
+    NSTimeInterval slideTime = CMTimeGetSeconds(self.player.currentItem.duration) * self.toolView.slider.value;
     if (slideTime == CMTimeGetSeconds(self.player.currentItem.duration)) {
         slideTime -= 0.5;
     }
@@ -333,6 +338,7 @@ typedef struct {
         self.transform = CGAffineTransformMakeRotation(M_PI_2);
         self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds), CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
+        self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.width-50, [UIScreen mainScreen].bounds.size.height, 50);
     } completion:^(BOOL finished) {
         self.state = MovieViewStateFullscreen;
     }];
@@ -352,6 +358,7 @@ typedef struct {
     [UIView animateWithDuration:0.2 animations:^{
         self.transform = CGAffineTransformIdentity;
         self.frame = frame;
+        self.toolView.frame = self.toolFrame;
     } completion:^(BOOL finished) {
         /*
          * movieView回到小屏位置
@@ -381,11 +388,11 @@ typedef struct {
     
     NSInteger totalMin = totalTime / 60;
     NSInteger totalSec = (NSInteger)totalTime % 60;
-    self.totalTime.text = [NSString stringWithFormat:@"%02td:%02td",totalMin,totalSec];
+    self.toolView.totalTime.text = [NSString stringWithFormat:@"%02td:%02td",totalMin,totalSec];
     
     NSInteger currentMin = currentTime / 60;
     NSInteger currentSec = (NSInteger)currentTime % 60;
-    self.currentTime.text = [NSString stringWithFormat:@"%02td:%02td",currentMin,currentSec];
+    self.toolView.currentTime.text = [NSString stringWithFormat:@"%02td:%02td",currentMin,currentSec];
 }
 
 #pragma mark - 播放状态
@@ -406,8 +413,8 @@ typedef struct {
     self.playEnded = NO;
     self.paused = NO;
     [self pv_pause];
-    if (self.playButton.selected) {
-        self.playButton.selected = NO;
+    if (self.toolView.playButton.selected) {
+        self.toolView.playButton.selected = NO;
     }
     [self.activityView startAnimating];
 }
@@ -433,14 +440,6 @@ typedef struct {
         UIGraphicsEndImageContext();
         return image;
     }
-}
-
-@end
-
-@implementation ToolView
-// 创建自定义view并重写这个方法，让ToolView可以响应点击事件，而不被传递到PlayerView
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    NSLog(@"Clicked ToolView");
 }
 
 @end

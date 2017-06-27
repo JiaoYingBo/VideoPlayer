@@ -19,6 +19,8 @@
 		0E3880D41ED43973007C8FD9 /* LocalVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3880D31ED43973007C8FD9 /* LocalVideoController.m */; };
 		0E3880D61ED52120007C8FD9 /* localvideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0E3880D51ED52120007C8FD9 /* localvideo.mp4 */; };
 		0E7EA06E1F01FEFF009E8490 /* UINavigationController+ybRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7EA06D1F01FEFF009E8490 /* UINavigationController+ybRotation.m */; };
+		0E7EA0711F02304B009E8490 /* YBPlayerToolView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7EA0701F02304B009E8490 /* YBPlayerToolView.m */; };
+		0EE332B31F023B730021F9A5 /* YBPlayerToolView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EE332B21F023B730021F9A5 /* YBPlayerToolView.xib */; };
 		0EED6C5D1D94010B0064E58D /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EED6C5A1D94010B0064E58D /* PlayerView.m */; };
 		0EED6C5E1D94010B0064E58D /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EED6C5B1D94010B0064E58D /* PlayerView.xib */; };
 		0EED6C611D9401300064E58D /* FullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EED6C601D9401300064E58D /* FullScreenController.m */; };
@@ -75,6 +77,9 @@
 		0E3880D51ED52120007C8FD9 /* localvideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = localvideo.mp4; sourceTree = "<group>"; };
 		0E7EA06C1F01FEFF009E8490 /* UINavigationController+ybRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ybRotation.h"; sourceTree = "<group>"; };
 		0E7EA06D1F01FEFF009E8490 /* UINavigationController+ybRotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ybRotation.m"; sourceTree = "<group>"; };
+		0E7EA06F1F02304B009E8490 /* YBPlayerToolView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPlayerToolView.h; sourceTree = "<group>"; };
+		0E7EA0701F02304B009E8490 /* YBPlayerToolView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPlayerToolView.m; sourceTree = "<group>"; };
+		0EE332B21F023B730021F9A5 /* YBPlayerToolView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YBPlayerToolView.xib; sourceTree = "<group>"; };
 		0EED6C591D94010B0064E58D /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
 		0EED6C5A1D94010B0064E58D /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		0EED6C5B1D94010B0064E58D /* PlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerView.xib; sourceTree = "<group>"; };
@@ -194,6 +199,9 @@
 				0EED6C591D94010B0064E58D /* PlayerView.h */,
 				0EED6C5A1D94010B0064E58D /* PlayerView.m */,
 				0EED6C5B1D94010B0064E58D /* PlayerView.xib */,
+				0E7EA06F1F02304B009E8490 /* YBPlayerToolView.h */,
+				0E7EA0701F02304B009E8490 /* YBPlayerToolView.m */,
+				0EE332B21F023B730021F9A5 /* YBPlayerToolView.xib */,
 				0E7EA06C1F01FEFF009E8490 /* UINavigationController+ybRotation.h */,
 				0E7EA06D1F01FEFF009E8490 /* UINavigationController+ybRotation.m */,
 			);
@@ -330,6 +338,7 @@
 				0E037CD41D93FF0C008804BC /* LaunchScreen.storyboard in Resources */,
 				0EED6C711D9402AB0064E58D /* play@2x.png in Resources */,
 				0EED6C721D9402AB0064E58D /* play@3x.png in Resources */,
+				0EE332B31F023B730021F9A5 /* YBPlayerToolView.xib in Resources */,
 				0EED6C6D1D9402AB0064E58D /* fullscreen@2x.png in Resources */,
 				0E037CD11D93FF0C008804BC /* Assets.xcassets in Resources */,
 				0E037CCF1D93FF0C008804BC /* Main.storyboard in Resources */,
@@ -369,6 +378,7 @@
 				0E037CC61D93FF0C008804BC /* main.m in Sources */,
 				0EED6C5D1D94010B0064E58D /* PlayerView.m in Sources */,
 				0EED6C611D9401300064E58D /* FullScreenController.m in Sources */,
+				0E7EA0711F02304B009E8490 /* YBPlayerToolView.m in Sources */,
 				0E7EA06E1F01FEFF009E8490 /* UINavigationController+ybRotation.m in Sources */,
 				0E3880D41ED43973007C8FD9 /* LocalVideoController.m in Sources */,
 			);

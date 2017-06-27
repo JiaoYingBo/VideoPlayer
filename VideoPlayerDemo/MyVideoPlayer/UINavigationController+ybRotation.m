@@ -12,14 +12,7 @@
 
 - (BOOL)shouldAutorotate
 {
-    //在viewControllers中返回需要改变的viewController
-    UIViewController *vc = nil;
-    NSLog(@"%@",self.viewControllers);
-    for (UIViewController *v in self.viewControllers) {
-        if ([v isKindOfClass:NSClassFromString(@"LocalVideoController")]) {
-            vc = v;
-        }
-    }
+    // 需要改变的viewController需要重写shouldAutorotate
     return [[self.viewControllers lastObject] shouldAutorotate];
 }
 
