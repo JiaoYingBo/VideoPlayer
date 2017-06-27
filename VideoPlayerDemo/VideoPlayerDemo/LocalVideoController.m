@@ -11,7 +11,7 @@
 
 @interface LocalVideoController ()
 
-@property (nonatomic, strong) PlayerView *playerView;
+@property (nonatomic, strong) PlayerView *movieView;
 
 @end
 
@@ -26,9 +26,14 @@
 
 - (void)initPlayer {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"localvideo.mp4" ofType:nil];
-    self.playerView = [PlayerView viewWithFrame:CGRectMake(0, 70, self.view.bounds.size.width, 200)];
-    self.playerView.pathString = path;
-    [self.view addSubview:self.playerView];
+    
+    self.movieView = [PlayerView viewWithFrame:CGRectMake(0, 70, self.view.bounds.size.width, 200)];
+    [self.view addSubview:self.movieView];
+    [self.movieView playWithLocalURL:path];
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
 }
 
 @end

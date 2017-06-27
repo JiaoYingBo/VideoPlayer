@@ -18,6 +18,7 @@
 		0E3880D11ED43961007C8FD9 /* NetworkVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3880D01ED43961007C8FD9 /* NetworkVideoController.m */; };
 		0E3880D41ED43973007C8FD9 /* LocalVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3880D31ED43973007C8FD9 /* LocalVideoController.m */; };
 		0E3880D61ED52120007C8FD9 /* localvideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0E3880D51ED52120007C8FD9 /* localvideo.mp4 */; };
+		0E7EA06E1F01FEFF009E8490 /* UINavigationController+ybRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7EA06D1F01FEFF009E8490 /* UINavigationController+ybRotation.m */; };
 		0EED6C5D1D94010B0064E58D /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EED6C5A1D94010B0064E58D /* PlayerView.m */; };
 		0EED6C5E1D94010B0064E58D /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EED6C5B1D94010B0064E58D /* PlayerView.xib */; };
 		0EED6C611D9401300064E58D /* FullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EED6C601D9401300064E58D /* FullScreenController.m */; };
@@ -72,6 +73,8 @@
 		0E3880D21ED43973007C8FD9 /* LocalVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalVideoController.h; sourceTree = "<group>"; };
 		0E3880D31ED43973007C8FD9 /* LocalVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalVideoController.m; sourceTree = "<group>"; };
 		0E3880D51ED52120007C8FD9 /* localvideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = localvideo.mp4; sourceTree = "<group>"; };
+		0E7EA06C1F01FEFF009E8490 /* UINavigationController+ybRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ybRotation.h"; sourceTree = "<group>"; };
+		0E7EA06D1F01FEFF009E8490 /* UINavigationController+ybRotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ybRotation.m"; sourceTree = "<group>"; };
 		0EED6C591D94010B0064E58D /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
 		0EED6C5A1D94010B0064E58D /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		0EED6C5B1D94010B0064E58D /* PlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerView.xib; sourceTree = "<group>"; };
@@ -191,6 +194,8 @@
 				0EED6C591D94010B0064E58D /* PlayerView.h */,
 				0EED6C5A1D94010B0064E58D /* PlayerView.m */,
 				0EED6C5B1D94010B0064E58D /* PlayerView.xib */,
+				0E7EA06C1F01FEFF009E8490 /* UINavigationController+ybRotation.h */,
+				0E7EA06D1F01FEFF009E8490 /* UINavigationController+ybRotation.m */,
 			);
 			path = MyVideoPlayer;
 			sourceTree = SOURCE_ROOT;
@@ -364,6 +369,7 @@
 				0E037CC61D93FF0C008804BC /* main.m in Sources */,
 				0EED6C5D1D94010B0064E58D /* PlayerView.m in Sources */,
 				0EED6C611D9401300064E58D /* FullScreenController.m in Sources */,
+				0E7EA06E1F01FEFF009E8490 /* UINavigationController+ybRotation.m in Sources */,
 				0E3880D41ED43973007C8FD9 /* LocalVideoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

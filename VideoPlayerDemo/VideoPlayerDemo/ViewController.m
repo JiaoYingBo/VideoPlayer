@@ -1,9 +1,4 @@
-//
-//  ViewController.m
-//  VideoPlayerDemo
-//
-//  Created by 焦英博 on 16/9/22.
-//  Copyright © 2016年 焦英博. All rights reserved.
+// 关于状态栏旋转，参考：http://blog.csdn.net/yyjjyysleep/article/details/68926803
 //
 
 #import "ViewController.h"
@@ -35,7 +30,8 @@
         //_playerView = [[PlayerView alloc] init];
         _playerView = [PlayerView viewWithFrame:CGRectMake(0, 70, self.view.bounds.size.width, 200)];
         _playerView.delegate = self;
-        _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
+//        _playerView.urlString = @"http://svideo.spriteapp.com/video/2016/1114/75a39f62-aa75-11e6-8196-d4ae5296039d_wpd.mp4";
+        
     }
     return _playerView;
 }
@@ -84,13 +80,13 @@
     }
 }
 
-#pragma mark - 屏幕旋转
-/** 不自动旋转 */
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-/** 竖屏显示 */
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait;
-}
+//#pragma mark - 屏幕旋转
+///** 不自动旋转 */
+//- (BOOL)shouldAutorotate {
+//    return NO;
+//}
+///** 竖屏显示 */
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+//    return UIInterfaceOrientationPortrait;
+//}
 @end

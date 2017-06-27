@@ -15,14 +15,36 @@ typedef struct {
 
 @interface PlayerView ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *toolView;
+@property (weak, nonatomic) IBOutlet UILabel *currentTime;
+@property (weak, nonatomic) IBOutlet UILabel *totalTime;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UIButton *fullButton;
+@property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderLeadingCtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderTrailingCtn;
+
+@property (nonatomic, copy) NSString *urlString; //网络视频地址
+@property (nonatomic, copy) NSString *pathString; //本地视频地址
+@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerLayer *playerLayer;
+
 @property (nonatomic, assign) BOOL paused; //记录暂停状态
 @property (nonatomic, strong) id playbackObserver;
 @property (nonatomic, assign) DelegateFlags delegateFlags;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign, readwrite) BOOL playEnded; //是否播放完毕
 @property (nonatomic, assign, readwrite) BOOL fullScreen; //是否是全屏
+
+// 记录小屏时的parentView
+@property (nonatomic, weak) UIView *movieViewParentView;
+// 记录小屏时的frame
+@property (nonatomic, assign) CGRect movieViewFrame;
+@property (nonatomic, assign) MovieViewState state;
+
 @end
 
 @implementation PlayerView
@@ -98,7 +120,18 @@ typedef struct {
     }
 }
 
+#pragma mark - public method
+
+- (void)playWithRemoteURL:(NSString *)url {
+    self.urlString = url;
+}
+
+- (void)playWithLocalURL:(NSString *)url {
+    self.pathString = url;
+}
+
 #pragma mark - setter
+
 - (void)setUrlString:(NSString *)urlString {
     _urlString = urlString;
     [self pv_resetPlayer];
@@ -255,11 +288,85 @@ typedef struct {
 }
 
 - (IBAction)pv_fullScreenBtnClick:(UIButton *)sender {
-    if (_delegateFlags.didClickFullScreenButton) {
-        [self.delegate playerViewDidClickFullScreenButton:self];
-        sender.selected = !sender.selected;
+//    if (_delegateFlags.didClickFullScreenButton) {
+//        [self.delegate playerViewDidClickFullScreenButton:self];
+//        sender.selected = !sender.selected;
+//    }
+//    self.fullScreen = !self.fullScreen;
+    
+    if (self.state == MovieViewStateSmall) {
+        [self enterFullscreen];
+    } else if (self.state == MovieViewStateFullscreen) {
+        [self exitFullscreen];
     }
-    self.fullScreen = !self.fullScreen;
+    sender.selected = !sender.selected;
+}
+
+#pragma mark - 全屏
+
+- (void)enterFullscreen {
+    
+    if (self.state != MovieViewStateSmall) {
+        return;
+    }
+    
+    self.state = MovieViewStateAnimating;
+    
+    /*
+     * 记录进入全屏前的parentView和frame
+     */
+    self.movieViewParentView = self.superview;
+    self.movieViewFrame = self.frame;
+    
+    /*
+     * movieView移到window上
+     */
+    CGRect rectInWindow = [self convertRect:self.bounds toView:[UIApplication sharedApplication].keyWindow];
+    [self removeFromSuperview];
+    self.frame = rectInWindow;
+    [[UIApplication sharedApplication].keyWindow addSubview:self];
+    
+    /*
+     * 执行动画
+     */
+    [UIView animateWithDuration:0.2 animations:^{
+        self.transform = CGAffineTransformMakeRotation(M_PI_2);
+        self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds), CGRectGetWidth(self.superview.bounds));
+        self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
+    } completion:^(BOOL finished) {
+        self.state = MovieViewStateFullscreen;
+    }];
+    
+    [self refreshStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+}
+
+- (void)exitFullscreen {
+    
+    if (self.state != MovieViewStateFullscreen) {
+        return;
+    }
+    
+    self.state = MovieViewStateAnimating;
+    
+    CGRect frame = [self.movieViewParentView convertRect:self.movieViewFrame toView:[UIApplication sharedApplication].keyWindow];
+    [UIView animateWithDuration:0.2 animations:^{
+        self.transform = CGAffineTransformIdentity;
+        self.frame = frame;
+    } completion:^(BOOL finished) {
+        /*
+         * movieView回到小屏位置
+         */
+        [self removeFromSuperview];
+        self.frame = self.movieViewFrame;
+        [self.movieViewParentView addSubview:self];
+        self.state = MovieViewStateSmall;
+    }];
+    
+    [self refreshStatusBarOrientation:UIInterfaceOrientationPortrait];
+}
+
+- (void)refreshStatusBarOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    [[UIApplication sharedApplication] setStatusBarOrientation:interfaceOrientation animated:YES];
 }
 
 #pragma mark - Time Label
