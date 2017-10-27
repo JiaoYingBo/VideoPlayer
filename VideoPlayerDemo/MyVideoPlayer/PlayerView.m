@@ -317,23 +317,17 @@ typedef struct {
     
     self.state = MovieViewStateAnimating;
     
-    /*
-     * 记录进入全屏前的parentView和frame
-     */
+    // 记录进入全屏前的parentView和frame
     self.movieViewParentView = self.superview;
     self.movieViewFrame = self.frame;
     
-    /*
-     * movieView移到window上
-     */
+    // movieView移到window上
     CGRect rectInWindow = [self convertRect:self.bounds toView:[UIApplication sharedApplication].keyWindow];
     [self removeFromSuperview];
     self.frame = rectInWindow;
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     
-    /*
-     * 执行动画
-     */
+    // 执行动画
     [UIView animateWithDuration:0.2 animations:^{
         self.transform = CGAffineTransformMakeRotation(M_PI_2);
         self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds), CGRectGetWidth(self.superview.bounds));
